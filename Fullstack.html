@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullstack Developer Bootcamp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 10px 10px 0 0;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            background: #f8f9fa;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+        }
+
+        .tab:hover {
+            background: #e9ecef;
+        }
+
+        .content {
+            background: white;
+            border-radius: 0 0 10px 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .week {
+            margin-bottom: 30px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .week:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+        }
+
+        .week-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .week-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .week-duration {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .daily-schedule {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .day {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .day-title {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .time-block {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            padding: 8px;
+            background: white;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+        }
+
+        .time {
+            font-weight: 600;
+            color: #667eea;
+            min-width: 80px;
+            font-size: 0.9rem;
+        }
+
+        .activity {
+            flex: 1;
+            font-size: 0.9rem;
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .project-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .tech {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-section {
+            margin-top: 30px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .checklist li:hover {
+            background: #e9ecef;
+        }
+
+        .checklist input[type="checkbox"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+            accent-color: #667eea;
+        }
+
+        .checklist li.completed {
+            background: #d4edda;
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        .milestone {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .resources {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .resource-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .resource-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+        }
+
+        .resource-title {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .daily-schedule {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .week-header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Intensive Fullstack Bootcamp</h1>
+            <p>React Developer → Fullstack Engineer in 12 Weeks</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('curriculum')">📚 Curriculum</button>
+            <button class="tab" onclick="showTab('schedule')">📅 Weekly Schedule</button>
+            <button class="tab" onclick="showTab('projects')">💻 Projects</button>
+            <button class="tab" onclick="showTab('progress')">📊 Progress Tracker</button>
+            <button class="tab" onclick="showTab('resources')">🔗 Resources</button>
+        </div>
+
+        <div class="content">
+            <div id="curriculum" class="tab-content active">
+                <h2 style="margin-bottom: 20px; color: #667eea;">12-Week Intensive Curriculum</h2>
+                
+                <div class="week">
+                    <div class="week-header">
+                        <div class="week-title">Week 1-2: Backend Fundamentals</div>
+                        <div class="week-duration">14 days</div>
+                    </div>
+                    <p><strong>Focus:</strong> Node.js, Express.js, RESTful APIs</p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Node.js runtime and npm ecosystem</li>
+                        <li>Express.js server setup and middleware</li>
+                        <li>REST API design principles</li>
+                        <li>HTTP methods, status codes, and headers</li>
+                        <li>Error handling and validation</li>
+                    </ul>
+                </div>
+
+                <div class="week">
+                    <div class="week-header">
+                        <div class="week-title">Week 3-4: Database & Data Management</div>
+                        <div class="week-duration">14 days</div>
+                    </div>
+                    <p><strong>Focus:</strong> MongoDB, PostgreSQL, Database Design</p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>SQL vs NoSQL databases</li>
+                        <li>MongoDB with Mongoose ODM</li>
+                        <li>PostgreSQL with Prisma ORM</li>
+                        <li>Database schema design</li>
+                        <li>CRUD operations and relationships</li>
+                    </ul>
+                </div>
+
+                <div class="week">
+                    <div class="week-header">
+                        <div class="week-title">Week 5-6: Authentication & Security</div>
+                        <div class="week-duration">14 days</div>
+                    </div>
+                    <p><strong>Focus:</strong> JWT, OAuth, Security Best Practices</p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>JWT authentication implementation</li>
+                        <li>OAuth 2.0 and third-party auth</li>
+                        <li>Password hashing and encryption</li>
+                        <li>API security and rate limiting</li>
+                        <li>CORS, CSRF, and XSS protection</li>
+                    </ul>
+                </div>
+
+                <div class="week">
+                    <div class="week-header">
+                        <div class="week-title">Week 7-8: Advanced Backend & APIs</div>
+                        <div class="week-duration">14 days</div>
+                    </div>
+                    <p><strong>Focus:</strong> GraphQL, Microservices, WebSockets</p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>GraphQL vs REST comparison</li>
+                        <li>Apollo Server setup</li>
+                        <li>Real-time communication with Socket.io</li>
+                        <li>Microservices architecture basics</li>
+                        <li>API documentation with Swagger</li>
+                    </ul>
+                </div>
+
+                <div class="week">
+                    <div class="week-header">
+                        <div class="week-title">Week 9-10: DevOps & Deployment</div>
+                        <div class="week-duration">14 days</div>
+                    </div>
+                    <p><strong>Focus:</strong> Docker, CI/CD, Cloud Deployment</p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Docker containerization</li>
+                        <li>CI/CD with GitHub Actions</li>
+                        <li>AWS/Vercel/Railway deployment</li>
+                        <li>Environment management</li>
+                        <li>Monitoring and logging</li>
+                    </ul>
+                </div>
+
+                <div class="week">
+                    <div class="week-header">
+                        <div class="week-title">Week 11-12: Portfolio & Interview Prep</div>
+                        <div class="week-duration">14 days</div>
+                    </div>
+                    <p><strong>Focus:</strong> Portfolio Projects, System Design, Interviews</p>
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Complete fullstack portfolio projects</li>
+                        <li>System design fundamentals</li>
+                        <li>Technical interview preparation</li>
+                        <li>Resume and LinkedIn optimization</li>
+                        <li>Mock interviews and coding challenges</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="schedule" class="tab-content">
+                <h2 style="margin-bottom: 20px; color: #667eea;">Daily Learning Schedule</h2>
+                <p style="margin-bottom: 20px;"><strong>Daily Commitment:</strong> 6-8 hours of focused learning</p>
+                
+                <div class="daily-schedule">
+                    <div class="day">
+                        <div class="day-title">Monday - Thursday</div>
+                        <div class="time-block">
+                            <div class="time">9:00-11:00</div>
+                            <div class="activity">📖 Theory & Concepts Study</div>
+                        </div>
+                        <div class="time-block">
+                            <div class="time">11:15-13:00</div>
+                            <div class="activity">💻 Hands-on Coding Practice</div>
+                        </div>
+                        <div class="time-block">
+                            <div class="time">14:00-16:00</div>
+                            <div class="activity">🏗️ Project Building</div>
+                        </div>
+                        <div class="time-block">
+                            <div class="time">16:15-17:30</div>
+                            <div class="activity">🧩 Coding Challenges</div>
+                        </div>
+                        <div class="time-block">
+                            <div class="time">19:00-20:00</div>
+                            <div class="activity">📝 Review & Documentation</div>
+                        </div>
+                    </div>
+
+                    <div class="day">
+                        <div class="day-title">Friday</div>
+                        <div class="time-block">
+                            <div class="time">9:00-11:00</div>
+                            <div class="activity">🔄 Weekly Review</div>
+                        </div>
+                        <div class="time-block">
+                            <div class="time">11:15-13:00</div>
+                            <div class="activity">🚀 Deploy Weekly Project</div>
+                        </div>
+                        <div class="time-block">
+                            <div class="time">14:00-16:00</div>
+                            <div class="activity">🎯 Next Week Preparation</div>
+                        </div>
+                        <div class="time-block">
+                            <div class="time">16:15-17:30</div>
+                            <div class="activity">📚 Additional Reading/Research</div>
+                        </div>
+                    </div>
+
+                    <div class="day">
+                        <div class="day-title">Saturday</div>
+                        <div class="time-block">
+                            <div class="time">10:00-12:00</div>
+                            <div class="activity">🏗️ Personal Project Work</div>
+                        </div>
+                        <div class="time-block">
+                            <div class="time">14:00-16:00</div>
+                            <div class="activity">🧩 Algorithm Practice</div>
+                        </div>
+                        <div class="time-block">
+                            <div class="time">16:15-17:00</div>
+                            <div class="activity">🌐 Tech Community Engagement</div>
+                        </div>
+                    </div>
+
+                    <div class="day">
+                        <div class="day-title">Sunday</div>
+                        <div class="time-block">
+                            <div class="time">Morning</div>
+                            <div class="activity">😴 Rest Day</div>
+                        </div>
+                        <div class="time-block">
+                            <div class="time">Evening</div>
+                            <div class="activity">📋 Week Planning</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="projects" class="tab-content">
+                <h2 style="margin-bottom: 20px; color: #667eea;">Progressive Fullstack Projects</h2>
+                
+                <div class="project-card">
+                    <div class="project-title">Week 2: Task Manager API</div>
+                    <p>Build a RESTful API for task management with full CRUD operations</p>
+                    <div class="tech-stack">
+                        <span class="tech">Node.js</span>
+                        <span class="tech">Express</span>
+                        <span class="tech">MongoDB</span>
+                        <span class="tech">Postman</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title">Week 4: Blog Platform Backend</div>
+                    <p>Database-driven blog API with user management and post relationships</p>
+                    <div class="tech-stack">
+                        <span class="tech">PostgreSQL</span>
+                        <span class="tech">Prisma</span>
+                        <span class="tech">JWT Auth</span>
+                        <span class="tech">File Upload</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title">Week 6: E-commerce API</div>
+                    <p>Secure e-commerce backend with authentication and payment integration</p>
+                    <div class="tech-stack">
+                        <span class="tech">JWT</span>
+                        <span class="tech">Stripe API</span>
+                        <span class="tech">Email Service</span>
+                        <span class="tech">Security</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title">Week 8: Real-time Chat App</div>
+                    <p>Full-featured chat application with GraphQL and WebSocket connections</p>
+                    <div class="tech-stack">
+                        <span class="tech">GraphQL</span>
+                        <span class="tech">Apollo</span>
+                        <span class="tech">Socket.io</span>
+                        <span class="tech">React</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title">Week 10: Microservices Architecture</div>
+                    <p>Scalable microservices setup with Docker and deployment pipeline</p>
+                    <div class="tech-stack">
+                        <span class="tech">Docker</span>
+                        <span class="tech">Nginx</span>
+                        <span class="tech">CI/CD</span>
+                        <span class="tech">AWS/Vercel</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title">Week 12: Portfolio Capstone</div>
+                    <p>Complete fullstack application showcasing all learned technologies</p>
+                    <div class="tech-stack">
+                        <span class="tech">Next.js</span>
+                        <span class="tech">Full Backend</span>
+                        <span class="tech">Database</span>
+                        <span class="tech">Deployment</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="progress" class="tab-content">
+                <h2 style="margin-bottom: 20px; color: #667eea;">Progress Tracker</h2>
+                
+                <div class="progress-section">
+                    <h3>Overall Bootcamp Progress</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="overall-progress" style="width: 0%"></div>
+                    </div>
+                    <p id="progress-text">0% Complete - Ready to start your journey!</p>
+                </div>
+
+                <div class="milestone">
+                    <h4>🎯 Current Milestone: Getting Started</h4>
+                    <p>Set up your development environment and begin Week 1</p>
+                </div>
+
+                <h3 style="margin-top: 30px;">Weekly Checklist</h3>
+                <ul class="checklist" id="week-checklist">
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Week 1: Complete Node.js & Express fundamentals</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Week 2: Build and deploy Task Manager API</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Week 3: Master MongoDB and Mongoose</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Week 4: Complete Blog Platform with PostgreSQL</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Week 5: Implement JWT authentication</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Week 6: Build secure E-commerce API</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Week 7: Learn GraphQL and Apollo</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Week 8: Create Real-time Chat Application</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Week 9: Master Docker and containerization</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Week 10: Deploy microservices to cloud</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Week 11: Build comprehensive portfolio</span>
+                    </li>
+                    <li>
+                        <input type="checkbox" onchange="updateProgress()">
+                        <span>Week 12: Complete interview preparation</span>
+                    </li>
+                </ul>
+
+                <button class="btn" onclick="resetProgress()">Reset Progress</button>
+                <button class="btn" onclick="saveProgress()">Save Progress</button>
+            </div>
+
+            <div id="resources" class="tab-content">
+                <h2 style="margin-bottom: 20px; color: #667eea;">Essential Learning Resources</h2>
+                
+                <div class="resources">
+                    <div class="resource-card">
+                        <div class="resource-title">📚 Documentation</div>
+                        <ul>
+                            <li><a href="https://nodejs.org/docs/" target="_blank">Node.js Official Docs</a></li>
+                            <li><a href="https://expressjs.com/" target="_blank">Express.js Guide</a></li>
+                            <li><a href="https://mongoosejs.com/" target="_blank">Mongoose Documentation</a></li>
+                            <li><a href="https://www.prisma.io/docs/" target="_blank">Prisma Documentation</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="resource-card">
+                        <div class="resource-title">🎥 Video Courses</div>
+                        <ul>
+                            <li>The Complete Node.js Developer Course</li>
+                            <li>MongoDB - The Complete Developer's Guide</li>
+                            <li>GraphQL with React Course</li>
+                            <li>Docker & Kubernetes Course</li>
+                        </ul>
+                    </div>
+
+                    <div class="resource-card">
+                        <div class="resource-title">🏆 Practice Platforms</div>
+                        <ul>
+                            <li><a href="https://leetcode.com/" target="_blank">LeetCode</a></li>
+                            <li><a href="https://hackerrank.com/" target="_blank">HackerRank</a></li>
+                            <li><a href="https://codewars.com/" target="_blank">CodeWars</a></li>
+                            <li><a href="https://freecodecamp.org/" target="_blank">freeCodeCamp</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="resource-card">
+                        <div class="resource-title">🛠️ Tools & Services</div>
+                        <ul>
+                            <li>Postman (API Testing)</li>
+                            <li>MongoDB Compass</li>
+                            <li>pgAdmin (PostgreSQL)</li>
+                            <li>Docker Desktop</li>
+                            <li>VS Code Extensions</li>
+                        </ul>
+                    </div>
+
+                    <div class="resource-card">
+                        <div class="resource-title">🌐 Communities</div>
+                        <ul>
+                            <li>Stack Overflow</li>
+                            <li>Dev.to Community</li>
+                            <li>Reddit r/webdev</li>
+                            <li>Discord Dev Communities</li>
+                        </ul>
+                    </div>
+
+                    <div class="resource-card">
+                        <div class="resource-title">📖 Books</div>
+                        <ul>
+                            <li>You Don't Know JS (Book Series)</li>
+                            <li>Clean Code by Robert Martin</li>
+                            <li>System Design Interview</li>
+                            <li>Designing Data-Intensive Applications</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px;">
+                    <h3 style="color: #667eea;">💡 Pro Tips for Success</h3>
+                    <ul style="margin-top: 15px;">
+                        <li><strong>Build every day:</strong> Consistency beats intensity</li>
+                        <li><strong>Document your learning:</strong> Keep a dev journal</li>
+                        <li><strong>Join communities:</strong> Learn with others</li>
+                        <li><strong>Deploy early and often:</strong> Make your projects live</li>
+                        <li><strong>Don't skip the fundamentals:</strong> Strong foundation is key</li>
+                        <li><strong>Practice system design:</strong> Think like a senior developer</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab content and mark tab as active
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('#week-checklist input[type="checkbox"]');
+            const checkedCount = document.querySelectorAll('#week-checklist input[type="checkbox"]:checked').length;
+            const totalCount = checkboxes.length;
+            const percentage = Math.round((checkedCount / totalCount) * 100);
+            
+            // Update progress bar
+            const progressFill = document.getElementById('overall-progress');
+            progressFill.style.width = percentage + '%';
+            
+            // Update progress text
+            const progressText = document.getElementById('progress-text');
+            progressText.textContent = `${percentage}% Complete - ${checkedCount} of ${totalCount} weeks finished!`;
+            
+            // Update milestone
+            const milestone = document.querySelector('.milestone h4');
+            const milestoneDesc = document.querySelector('.milestone p');
+            
+            if (percentage === 0) {
+                milestone.textContent = '🎯 Current Milestone: Getting Started';
+                milestoneDesc.textContent = 'Set up your development environment and begin Week 1';
+            } else if (percentage <= 25) {
+                milestone.textContent = '🚀 Current Milestone: Backend Fundamentals';
+                milestoneDesc.textContent = 'Building solid server-side foundations with Node.js and Express';
+            } else if (percentage <= 50) {
+                milestone.textContent = '🗄️ Current Milestone: Database Master';
+                milestoneDesc.textContent = 'Mastering data management with MongoDB and PostgreSQL';
+            } else if (percentage <= 75) {
+                milestone.textContent = '🔐 Current Milestone: Advanced Backend';
+                milestoneDesc.textContent = 'Implementing security, GraphQL, and real-time features';
+            } else if (percentage < 100) {
+                milestone.textContent = '☁️ Current Milestone: DevOps & Deployment';
+                milestoneDesc.textContent = 'Learning containerization, CI/CD, and cloud deployment';
+            } else {
+                milestone.textContent = '🎉 Milestone Complete: Fullstack Developer!';
+                milestoneDesc.textContent = 'Congratulations! You\'ve completed the intensive bootcamp. Ready for interviews!';
+            }
+            
+            // Update completed items styling
+            checkboxes.forEach((checkbox, index) => {
+                const listItem = checkbox.parentElement;
+                if (checkbox.checked) {
+                    listItem.classList.add('completed');
+                } else {
+                    listItem.classList.remove('completed');
+                }
+            });
+            
+            // Save progress to localStorage (if available)
+            try {
+                const progressData = {
+                    checkedItems: Array.from(checkboxes).map(cb => cb.checked),
+                    lastUpdated: new Date().toISOString()
+                };
+                localStorage.setItem('bootcamp-progress', JSON.stringify(progressData));
+            } catch (e) {
+                // localStorage not available, continue without saving
+            }
+        }
+
+        function resetProgress() {
+            const checkboxes = document.querySelectorAll('#week-checklist input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+                checkbox.parentElement.classList.remove('completed');
+            });
+            updateProgress();
+        }
+
+        function saveProgress() {
+            try {
+                const checkboxes = document.querySelectorAll('#week-checklist input[type="checkbox"]');
+                const progressData = {
+                    checkedItems: Array.from(checkboxes).map(cb => cb.checked),
+                    lastUpdated: new Date().toISOString()
+                };
+                localStorage.setItem('bootcamp-progress', JSON.stringify(progressData));
+                alert('Progress saved successfully!');
+            } catch (e) {
+                alert('Unable to save progress. Your browser may not support local storage.');
+            }
+        }
+
+        function loadProgress() {
+            try {
+                const savedProgress = localStorage.getItem('bootcamp-progress');
+                if (savedProgress) {
+                    const progressData = JSON.parse(savedProgress);
+                    const checkboxes = document.querySelectorAll('#week-checklist input[type="checkbox"]');
+                    
+                    checkboxes.forEach((checkbox, index) => {
+                        if (progressData.checkedItems[index]) {
+                            checkbox.checked = true;
+                        }
+                    });
+                    updateProgress();
+                }
+            } catch (e) {
+                // Error loading progress, continue without loading
+            }
+        }
+
+        // Load progress when page loads
+        window.addEventListener('load', loadProgress);
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate progress bar on load
+            setTimeout(() => {
+                updateProgress();
+            }, 500);
+
+            // Add hover effects to cards
+            const cards = document.querySelectorAll('.week, .project-card, .resource-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+
+        // Add keyboard navigation for tabs
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key >= '1' && e.key <= '5') {
+                e.preventDefault();
+                const tabIndex = parseInt(e.key) - 1;
+                const tabs = ['curriculum', 'schedule', 'projects', 'progress', 'resources'];
+                if (tabs[tabIndex]) {
+                    showTab(tabs[tabIndex]);
+                    document.querySelectorAll('.tab')[tabIndex].classList.add('active');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
